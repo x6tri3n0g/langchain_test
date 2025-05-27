@@ -1,6 +1,7 @@
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 
+# 프롬프트에 삽입할 예시를 목록 형식으로 전달
 examples = [
     {
         "input": "충청도의 계룡산 전라도의 내장산 강원도의 설악산은 모두 국립공원이다.",
@@ -15,10 +16,10 @@ prompt = PromptTemplate(
 
 few_shot_prompt = FewShotPromptTemplate(
     examples=examples,
-    example_prompt=prompt,
-    prefix="아래 문장부호가 빠진 입력에 문장부호를 추가하세요. 추가할 수 있는 문장부호는 ',', '.'입니다. 다른 문장부호는 추가하지 마세요.",
-    suffix="입력: {input_string}\n출력:",
-    input_variables=["input_string"],
+    example_prompt=prompt,  # 예제를 삽입할 서식을 설정하며, PromptTmeplate을 전달해야 한다.
+    prefix="아래 문장부호가 빠진 입력에 문장부호를 추가하세요. 추가할 수 있는 문장부호는 ',', '.'입니다. 다른 문장부호는 추가하지 마세요.", # 예제를 출력하는 프롬프트 앞에 배치되는 텍스트다. 모델에 대한 지시
+    suffix="입력: {input_string}\n출력:",   # 예시를 출력하는 프롬프트 뒤에 배치되는 텍스트다. 이번 코드에서는 사용자의 입력이 들어간다.
+    input_variables=["input_string"],   # 전체 프롬프트가 기대하는 변수 이름 목록(혹은 값)
 )
 
 llm = ChatOpenAI(model_name="gpt-3.5-turbo")
